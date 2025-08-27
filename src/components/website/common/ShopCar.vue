@@ -19,16 +19,16 @@
                                 ¥{{ item.price }}
                             </div>
                             <div class="list-opt">
-                                <div class="i">-</div>
+                                <div class="i" @click="removeItem(item.id)">-</div>
                                 <div>{{ item.count }}</div>
-                                <div class="i">+</div>
+                                <div class="i" @click="addItem(item.id)">+</div>
                             </div>
 
                         </div>
                     </div>
                 </li>
                 <div class="shopcar-sum">
-                    <div class="shopcar-sum-price">¥{{sumPrice}}</div>
+                    <div class="shopcar-sum-price">¥{{ sumPrice }}</div>
                     <div class="shopcar-to-sum">去结算</div>
                 </div>
             </ul>
@@ -36,7 +36,7 @@
     </div>
 </template>
 <script>
-import { store } from '../../../utils/store.js';
+import { store } from '@/utils/store.js';
 export default {
     data() {
         return {
@@ -44,12 +44,9 @@ export default {
             goodsGroup: []
         }
     },
-    mounted() {
-        console.log(this.goodsGroup)
-    },
-    computed:{
-        sumPrice(){
-            return this.goodsGroup.reduce((sum,item)=>sum + item.price * item.count,0);
+    computed: {
+        sumPrice() {
+            return this.goodsGroup.reduce((sum, item) => sum + item.price * item.count, 0);
         }
     },
     methods: {
@@ -57,8 +54,26 @@ export default {
             this.drawer = true;
         },
         handleOpen() {
-            console.log(store.goodsGroup)
             this.goodsGroup = store.goodsGroup;
+        },
+        async addItem(id) {
+            store.goodsIds.push(id);
+            try {
+                await store.getShopCarItem();
+                this.goodsGroup = store.goodsGroup;
+            } catch (e) {
+                console.log('购物车数据更新失败', e)
+            }
+        },
+        async removeItem(id) {
+            const index = store.goodsIds.indexOf(id);
+            if (index !== -1) store.goodsIds.splice(index, 1);
+            try {
+                await store.getShopCarItem();
+                this.goodsGroup = store.goodsGroup;
+            } catch (e) {
+                console.log('失败', e);
+            }
         }
     }
 }
@@ -69,7 +84,6 @@ export default {
     right: 0;
     bottom: 50px;
     z-index: 2001;
-
 
     .shopcar {
         background-color: red;
@@ -129,9 +143,11 @@ export default {
                     justify-content: space-between;
                     align-items: flex-end;
                     height: 100%;
-                    .opt-price{
+
+                    .opt-price {
                         color: red;
                     }
+
                     .list-opt {
                         width: 60px;
                         display: flex;
@@ -147,6 +163,7 @@ export default {
                             text-align: center;
                             line-height: 18px;
                             color: red;
+                            cursor: pointer;
                         }
                     }
                 }

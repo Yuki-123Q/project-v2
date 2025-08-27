@@ -13,7 +13,7 @@
     </div>
 </template>
 <script>
-import { getWorkListData } from '../../utils/table';
+import { getWorkListData } from '@/utils/table';
 export default {
     data() {
         return {

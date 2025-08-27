@@ -4,7 +4,7 @@
             <i class="fa fa-users"></i>
         </div>
         <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
-            <li v-for="(i, k) in goodsGroup" class="infinite-list-item" :key="k">
+            <li v-for="(i, k) in dataList" class="infinite-list-item" :key="k">
                 <img :src="require(`@/assets/img/${i.src}`)" alt="">
                 <div class="list-content">
                     <div class="list-info">
@@ -29,28 +29,25 @@
     </div>
 </template>
 <script>
-import { getList } from '../../utils/table.js';
-import indexList from '../../Mock/listIndex.json';
-import { store } from '../../utils/store.js';
+import { GetIndexList } from '@/api/api';
+import indexList from '@/Mock/listIndex.json';
+import { store } from '@/utils/store.js';
 export default {
     data() {
         return {
-            goodsGroup: [],
+            dataList: [],
             count: 10,
             loading: false,
             noMore: false,
         }
     },
     mounted() {
-        this.getData('/index');
-        console.log(this.goodsGroup)
+        this.getData();
     },
     methods: {
         addShopCar(id) {
-            console.log(id)
             store.goodsIds.push(id);
-            console.log(store.goodsIds)
-            this.getData('/shopcar')
+            store.getShopCarItem();
         },
         load() {
             this.loading = true
@@ -60,16 +57,20 @@ export default {
             } else {
                 setTimeout(() => {
                     this.count += 2;
-                    this.getData('/index');
+                    this.getData();
                 }, 2000);
 
             }
-            console.log(this.loading)
         },
-        getData(url) {
-            console.log(this.count)
-            getList(this, url, { pageSize: this.count, ids: store.goodsIds});
-        }
+        getData() {
+            GetIndexList({ pageSize: this.count }).then(res => {
+                if (res.data.status === 200) {
+                    this.dataList = res.data.data;
+                    this.loading = false;
+                }
+            })
+        },
+        
     }
 }
 </script>

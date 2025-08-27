@@ -82,7 +82,6 @@ mock.onDelete('/api/student').reply(params => {
 });
 // 获取信息列表
 mock.onGet('/api/info').reply(params => {
-  console.log(params)
   try {
     const paramsData = params.data ? JSON.parse(params.data) : null;
     if (paramsData) {
@@ -122,7 +121,6 @@ mock.onPut('/api/info').reply(params => {
 })
 //删除信息
 mock.onDelete('/api/info').reply(params => {
-  console.log(params)
   try {
     const existInfo = studentsInfo.some(item => {
       return item.id === params.data
@@ -139,11 +137,8 @@ mock.onDelete('/api/info').reply(params => {
 
 // 获取作业列表
 let workData = [...workList];
-console.log(workData,workList);
-mock.onGet('/api/work').reply(params => {
-  console.log(params)
+mock.onGet('/api/work').reply(() => {
   try {
-    // const paramsData = params.data ? JSON.parse(params.data) : null;
     return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS,{total: workList.length,data:workData});
   } catch (e) {
     return handleServerError(e);
@@ -160,9 +155,8 @@ mock.onGet('/api/dataview').reply(()=>{
  */
 // 首页列表/后台分页
 mock.onGet('/api/index').reply(params => {
-  console.log(params)
   try {
-    const paramsData = JSON.parse(params.data);
+    const paramsData = params.data ? JSON.parse(params.data) : null;
     let listInfo = [...indexList].slice(0, paramsData.pageSize);
     return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS, { data: listInfo });
   }
@@ -172,7 +166,6 @@ mock.onGet('/api/index').reply(params => {
 })
 // 购物车列表
 mock.onGet('/api/shopcar').reply(params => {
-  console.log(params)
   try {
     const paramsData = JSON.parse(params.data);
     let listInfo = [...indexList];

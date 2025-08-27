@@ -19,9 +19,9 @@
     </div>
 </template>
 <script>
-import { nameRule, passRule } from '../utils/validate';
+import { nameRule, passRule } from '@/utils/validate';
 import {setToken} from '@/utils/setToken.js';
-import { login } from '../api/api';
+import { login } from '@/api/api';
 export default {
     data() {
         return {
@@ -39,11 +39,8 @@ export default {
     methods: {
         loginClick() {
             this.$refs.form.validate((valid) => {
-                console.log(valid)
                 if (valid) {
-                    console.log(this.form)
                     login(this.form).then(res=>{
-                        console.log(res)
                         if(res.status === 200){
                             setToken('username', res.data.username);
                             setToken('token',res.data.token);

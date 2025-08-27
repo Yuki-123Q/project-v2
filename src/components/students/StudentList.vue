@@ -34,7 +34,7 @@
   </div>
 </template>
 <script>
-import { deleteData, getData } from '../../utils/table';
+import { deleteData, getData } from '@/utils/table';
 export default {
   data() {
     return {
@@ -64,7 +64,6 @@ export default {
       this.currentPage = val;
     },
     getStudentsData(params) {
-      console.log(params)
       getData(this, '/users',params);
     },
     deleteClick(row) {

@@ -22,9 +22,8 @@ export default {
     },
     created() {
         GetDataView().then(res => {
-            console.log(res)
             if (res.data.status === 200) {
-                let { legend, xAxis, series } = { ...res.data.data };
+                let { legend, xAxis, series } = res.data.data;
                 this.draw(legend, xAxis, series);
             }
         })

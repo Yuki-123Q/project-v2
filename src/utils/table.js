@@ -1,5 +1,3 @@
-import { store } from "./store";
-
 /** 学生列表&&信息列表 */
 //获取/查询数据
 export function getData(root, url, params) {
@@ -41,9 +39,7 @@ export function deleteData(root, url, id, callFn) {
 }
 /** 作业列表 */
 export function getWorkListData(root,url,data){
-    console.log(root,url,data)
     root.service.get(url,{params:data}).then(res=>{
-        console.log(res)
         if(res.data.status === 200){
             root.tableData = res.data.data;
             root.tableData.forEach(item=>{
@@ -53,21 +49,4 @@ export function getWorkListData(root,url,data){
         }
     })
 
-}
-/**************官网 **************/
-//获取列表 //首页&&购物车列表
-export function getList(root, url, data) {
-    root.service.get(url, { data }).then(res => {
-        console.log(res)
-        if (res.status === 200) {
-            if (url === '/index') {
-                root.goodsGroup = res.data.data;
-                root.loading = false;
-            } else {
-                store.goodsGroup = res.data.data;
-                store.loading = false;
-            }
-
-        }
-    })
 }

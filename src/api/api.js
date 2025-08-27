@@ -65,3 +65,19 @@ export function GetDataView(){
         url: '/dataview'
     })
 }
+// 首页列表
+export function GetIndexList(data){
+    return service({
+        method: 'get',
+        url: '/index',
+        data
+    })
+}
+// 购物车列表
+export function GetGoodsList(data){
+    return service({
+        method: 'get',
+        url: '/shopcar',
+        data
+    })
+}

@@ -75,7 +75,7 @@
     </div>
 </template>
 <script>
-import { getData, updateData, deleteData } from '../../utils/table';
+import { getData, updateData, deleteData } from '@/utils/table';
 export default {
     data() {
         return {
