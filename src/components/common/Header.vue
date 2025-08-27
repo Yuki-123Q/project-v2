@@ -45,6 +45,7 @@ export default {
             }
             .user{
                 text-decoration: underline;
+                margin-left: 10px;
             }
         }
     }
