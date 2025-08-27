@@ -1,8 +1,5 @@
 <template>
     <div class="w-index-list">
-        <div class="list-header">
-            <i class="fa fa-users"></i>
-        </div>
         <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
             <li v-for="(i, k) in dataList" class="infinite-list-item" :key="k">
                 <img :src="require(`@/assets/img/${i.src}`)" alt="">
