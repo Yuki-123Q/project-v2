@@ -1,6 +1,10 @@
 <template>
     <div class="w-shopcar">
-        <div class="shopcar" @click="openShopcar">购物车</div>
+        <div class="shopcar" @click="openShopcar">
+            <div class="car-count">{{ sumCount }}</div>
+            <i class="fa fa-shopping-cart" aria-hidden="true" />
+        </div>
+
         <el-drawer custom-class="w-drawer" size="40%" title="购物车" :visible.sync="drawer" :append-to-body="true"
             @open="handleOpen">
             <ul class="infinite-list ">
@@ -46,7 +50,10 @@ export default {
     },
     computed: {
         sumPrice() {
-            return this.goodsGroup.reduce((sum, item) => sum + item.price * item.count, 0);
+            return store.sumPrice;
+        },
+        sumCount(){
+            return store.sumCount;
         }
     },
     methods: {
@@ -81,13 +88,28 @@ export default {
 <style lang="scss">
 .w-shopcar {
     position: fixed;
-    right: 0;
+    right: 5px;
     bottom: 50px;
     z-index: 2001;
 
     .shopcar {
-        background-color: red;
-        color: white;
+        position: relative;
+        .car-count{
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            line-height: 15px;
+            font-size: 12px;
+            border: 1px solid white;
+            position: absolute;
+            top: 11px;
+            right: 10px;
+            color: white;
+        }
+        .fa{
+            font-size: 48px;
+            color: red;
+        }
     }
 }
 

@@ -81,7 +81,7 @@ export default new Router({
         {
             path: '/home',
             name: '用户中心',
-            iconClass: 'fa fa-bar-chart',
+            iconClass: 'fa fa-user',
             component: ()=>import('@/components/Home'),
             children: [
                 {

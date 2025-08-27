@@ -43,6 +43,10 @@ export default {
         .el-menu {
             height: 100%;
 
+            .el-submenu__title .fa{
+                font-size: 16px;
+            }
+
             .fa {
                 margin-right: 10px;
             }
@@ -50,6 +54,10 @@ export default {
 
         .el-submenu .el-menu-item {
             min-width: 0;
+
+            i {
+                font-size: 12px;
+            }
         }
     }
 }
