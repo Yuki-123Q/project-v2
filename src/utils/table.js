@@ -1,7 +1,9 @@
 import { store } from "./store";
+
+/** 学生列表&&信息列表 */
 //获取/查询数据
-export function getData(root, method, url, params) {
-    root.service[method](url, { data: params }).then(res => {
+export function getData(root, url, params) {
+    root.service.get(url, { data: params }).then(res => {
         if (res.data.status === 200) {
             root.tableData = res.data.data;
             root.tableData.forEach(item => {
@@ -36,6 +38,21 @@ export function deleteData(root, url, id, callFn) {
             }
         })
     });
+}
+/** 作业列表 */
+export function getWorkListData(root,url,data){
+    console.log(root,url,data)
+    root.service.get(url,{params:data}).then(res=>{
+        console.log(res)
+        if(res.data.status === 200){
+            root.tableData = res.data.data;
+            root.tableData.forEach(item=>{
+                item.completedText = item.completed ? '是' : '否';
+            });
+            root.total = res.data.total;
+        }
+    })
+
 }
 /**************官网 **************/
 //获取列表 //首页&&购物车列表

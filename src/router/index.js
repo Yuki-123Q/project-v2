@@ -55,23 +55,11 @@ export default new Router({
                     component: () => import('@/components/students/InfoList')
                 },
                 {
-                    path: '/home/infoManagement',
-                    name: '信息管理',
-                    iconClass: 'fa fa-list-alt',
-                    component: () => import('@/components/students/InfoManagement')
-                },
-                {
                     path: '/home/work',
                     name: '作业列表',
                     iconClass: 'fa fa-list-ul',
                     component: () => import('@/components/students/WorkList')
-                },
-                {
-                    path: '/home/workManagement',
-                    name: '作业管理',
-                    iconClass: 'fa fa-th-list',
-                    component: () => import('@/components/students/WorkManagement')
-                },
+                }
             ]
 
         },
@@ -86,24 +74,6 @@ export default new Router({
                     name: '数据概览',
                     iconClass: 'fa fa-line-chart',
                     component: () => import('@/components/dataAnalysis/DataView')
-                },
-                {
-                    path: '/home/mapview',
-                    name: '地图概览',
-                    iconClass: 'fa fa-line-chart',
-                    component: () => import('@/components/dataAnalysis/MapView')
-                },
-                {
-                    path: '/home/travel',
-                    name: '旅游地图',
-                    iconClass: 'fa fa-line-chart',
-                    component: () => import('@/components/dataAnalysis/TravelMap')
-                },
-                {
-                    path: '/home/score',
-                    name: '分数地图',
-                    iconClass: 'fa fa-line-chart',
-                    component: () => import('@/components/dataAnalysis/ScoreMap')
                 }
             ]
 

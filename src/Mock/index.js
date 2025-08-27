@@ -3,7 +3,8 @@ import MockAdapter from 'axios-mock-adapter';
 import studentsData from './students.json';
 import infoData from './infoList.json';
 import indexList from './listIndex.json';
-
+import workList from './workList.json';
+import dataView from './dataView.json';
 const mock = new MockAdapter(axios);
 const STATUS_CODES = {
   SUCCESS: 200,
@@ -31,8 +32,6 @@ const handleServerError = error => {
   console.log(`Server Error: ${error}`);
   return createResponse(STATUS_CODES.SERVER_ERROR, MESSAGES.SERVER_ERROR);
 }
-let students = [...studentsData];
-let studentsInfo = [...infoData];
 //登录
 mock.onPost('/api/login').reply(config => {
   try {
@@ -44,7 +43,10 @@ mock.onPost('/api/login').reply(config => {
     return handleServerError(e);
   }
 })
+
 //获取学生信息/前台分页
+let students = [...studentsData];
+let studentsInfo = [...infoData];
 mock.onGet('/api/users').reply(params => {
   try {
     // 查询
@@ -135,6 +137,24 @@ mock.onDelete('/api/info').reply(params => {
   }
 })
 
+// 获取作业列表
+let workData = [...workList];
+console.log(workData,workList);
+mock.onGet('/api/work').reply(params => {
+  console.log(params)
+  try {
+    // const paramsData = params.data ? JSON.parse(params.data) : null;
+    return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS,{total: workList.length,data:workData});
+  } catch (e) {
+    return handleServerError(e);
+  }
+
+})
+// 数据概览
+mock.onGet('/api/dataview').reply(()=>{
+  return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS,{data:dataView});
+})
+
 /*
  *网页接口
  */
@@ -156,12 +176,13 @@ mock.onGet('/api/shopcar').reply(params => {
   try {
     const paramsData = JSON.parse(params.data);
     let listInfo = [...indexList];
+    // 计算每个商品加入购物车次数
     const ids = paramsData.ids || [];
-    const itemCountMap = ids.reduce((obj,id)=>{
-      obj[id]=(obj[id] || 0) + 1;
+    const itemCountMap = ids.reduce((obj, id) => {
+      obj[id] = (obj[id] || 0) + 1;
       return obj;
-    },{})
-    const shopcarList = listInfo.filter(item=>ids.includes(item.id)).map(item=>({...item,count:itemCountMap[item.id] || 0}));
+    }, {})
+    const shopcarList = listInfo.filter(item => ids.includes(item.id)).map(item => ({ ...item, count: itemCountMap[item.id] || 0 }));
     return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS, { data: shopcarList });
   }
   catch (e) {

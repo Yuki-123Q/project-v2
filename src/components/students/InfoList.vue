@@ -1,5 +1,5 @@
 <template>
-    <div class="infoList">
+    <div class="info-list">
         <el-form :inline="true" class="demo-form-inline" size="small">
             <el-form-item>
                 <el-form-item label="姓名">
@@ -133,7 +133,7 @@ export default {
             this.getInfos();
         },
         query() {
-            getData(this, 'get', '/info', { user: this.formInline.user });
+            getData(this,'/info', { user: this.formInline.user });
         },
         add() {
             this.form = {
@@ -171,13 +171,13 @@ export default {
             this.dialogFormVisible = true;
         },
         getInfos() {
-            getData(this, 'get', '/info');
+            getData(this, '/info');
         }
     }
 }
 </script>
 <style lang="scss">
-.infoList {
+.info-list {
 
     .demo-form-inline,
     .el-form-item {
@@ -190,7 +190,6 @@ export default {
     }
 
     .el-pagination {
-        text-align: left;
         margin-top: 20px;
     }
 }

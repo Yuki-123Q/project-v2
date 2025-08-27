@@ -8,7 +8,7 @@
                     <img :src="require(`@/assets/img/${item.src}`)" alt="">
                     <div class="list-content">
                         <div class="list-info">
-                            <div class="list-info-child list-title">{{ item.title }}</div>
+                            <div class="list-info-child list-title" :title="item.title">{{ item.title }}</div>
                             <div class="list-info-child list-author">
                                 <span>{{ item.author }}</span>
                                 <span>{{ item.date }}</span>
@@ -19,16 +19,16 @@
                                 ¥{{ item.price }}
                             </div>
                             <div class="list-opt">
-                                <div>-</div>
+                                <div class="i">-</div>
                                 <div>{{ item.count }}</div>
-                                <div>+</div>
+                                <div class="i">+</div>
                             </div>
 
                         </div>
                     </div>
                 </li>
                 <div class="shopcar-sum">
-                    <div class="shopcar-sum-price">¥9999</div>
+                    <div class="shopcar-sum-price">¥{{sumPrice}}</div>
                     <div class="shopcar-to-sum">去结算</div>
                 </div>
             </ul>
@@ -46,6 +46,11 @@ export default {
     },
     mounted() {
         console.log(this.goodsGroup)
+    },
+    computed:{
+        sumPrice(){
+            return this.goodsGroup.reduce((sum,item)=>sum + item.price * item.count,0);
+        }
     },
     methods: {
         openShopcar() {
@@ -121,14 +126,28 @@ export default {
                 .list-option {
                     display: flex;
                     flex-direction: column;
-                    justify-content: flex-end;
-
+                    justify-content: space-between;
+                    align-items: flex-end;
+                    height: 100%;
+                    .opt-price{
+                        color: red;
+                    }
                     .list-opt {
-                        width: 40px;
+                        width: 60px;
                         display: flex;
                         flex-direction: row;
                         justify-content: space-between;
                         align-items: center;
+
+                        .i {
+                            width: 18px;
+                            height: 18px;
+                            border-radius: 50%;
+                            border: 1px solid red;
+                            text-align: center;
+                            line-height: 18px;
+                            color: red;
+                        }
                     }
                 }
 

@@ -58,3 +58,10 @@ export function DeleteStudentInfo(data){
         data
     })
 }
+// 数据概览
+export function GetDataView(){
+    return service({
+        method: 'get',
+        url: '/dataview'
+    })
+}

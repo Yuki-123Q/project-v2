@@ -1,5 +1,5 @@
 <template>
-  <div class="studentList">
+  <div class="student-list">
     <!-- 查询 -->
     <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
       <el-form-item label="姓名">
@@ -65,7 +65,7 @@ export default {
     },
     getStudentsData(params) {
       console.log(params)
-      getData(this, 'get', '/users',params);
+      getData(this, '/users',params);
     },
     deleteClick(row) {
       deleteData(this, '/student', row.id, this.getStudentsData);
@@ -84,7 +84,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.studentList {
+.student-list {
 
   .demo-form-inline,
   .el-form-item {
@@ -92,7 +92,6 @@ export default {
   }
 
   .el-pagination {
-    text-align: left;
     margin-top: 20px;
   }
 }

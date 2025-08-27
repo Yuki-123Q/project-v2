@@ -31,7 +31,8 @@ export default {
     },
     created() {
         // console.log(this.$router.options.routes);
-        this.menus = [...this.$router.options.routes]
+        this.menus = [...this.$router.options.routes];
+        this.menus.splice(this.menus.length - 1, 1);
     }
 }
 </script>

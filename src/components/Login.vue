@@ -26,8 +26,8 @@ export default {
     data() {
         return {
             form: {
-                username: '',
-                password: ''
+                username: 'admin',
+                password: 'Qaz123!'
             },
             rules: {
                 username: [{validator: nameRule, trigger: 'blur'}],
@@ -39,6 +39,7 @@ export default {
     methods: {
         loginClick() {
             this.$refs.form.validate((valid) => {
+                console.log(valid)
                 if (valid) {
                     console.log(this.form)
                     login(this.form).then(res=>{
