@@ -7,35 +7,37 @@
 
         <el-drawer custom-class="w-drawer" size="40%" title="购物车" :visible.sync="drawer" :append-to-body="true"
             @open="handleOpen">
-            <ul class="infinite-list ">
-                <li class="infinite-list-item " v-for="(item, index) in goodsGroup" :key="index">
-                    <img :src="require(`@/assets/img/${item.src}`)" alt="">
-                    <div class="list-content">
-                        <div class="list-info">
-                            <div class="list-info-child list-title" :title="item.title">{{ item.title }}</div>
-                            <div class="list-info-child list-author">
-                                <span>{{ item.author }}</span>
-                                <span>{{ item.date }}</span>
+            <div class="list-wrap">
+                <ul class="infinite-list ">
+                    <li class="infinite-list-item " v-for="(item, index) in goodsGroup" :key="index">
+                        <img :src="require(`@/assets/img/${item.src}`)" alt="">
+                        <div class="list-content">
+                            <div class="list-info">
+                                <div class="list-info-child list-title" :title="item.title">{{ item.title }}</div>
+                                <div class="list-info-child list-author">
+                                    <span>{{ item.author }}</span>
+                                    <span>{{ item.date }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="list-option">
-                            <div class="opt-price">
-                                ¥{{ item.price }}
-                            </div>
-                            <div class="list-opt">
-                                <div class="i" @click="removeItem(item.id)">-</div>
-                                <div>{{ item.count }}</div>
-                                <div class="i" @click="addItem(item.id)">+</div>
-                            </div>
+                            <div class="list-option">
+                                <div class="opt-price">
+                                    ¥{{ item.price }}
+                                </div>
+                                <div class="list-opt">
+                                    <div class="i" @click="removeItem(item.id)">-</div>
+                                    <div>{{ item.count }}</div>
+                                    <div class="i" @click="addItem(item.id)">+</div>
+                                </div>
 
+                            </div>
                         </div>
-                    </div>
-                </li>
+                    </li>
+                </ul>
                 <div class="shopcar-sum">
                     <div class="shopcar-sum-price">¥{{ sumPrice }}</div>
                     <div class="shopcar-to-sum">去结算</div>
                 </div>
-            </ul>
+            </div>
         </el-drawer>
     </div>
 </template>
@@ -52,7 +54,7 @@ export default {
         sumPrice() {
             return store.sumPrice;
         },
-        sumCount(){
+        sumCount() {
             return store.sumCount;
         }
     },
@@ -94,7 +96,8 @@ export default {
 
     .shopcar {
         position: relative;
-        .car-count{
+
+        .car-count {
             width: 15px;
             height: 15px;
             border-radius: 50%;
@@ -106,7 +109,8 @@ export default {
             right: 10px;
             color: white;
         }
-        .fa{
+
+        .fa {
             font-size: 48px;
             color: red;
         }
@@ -114,11 +118,34 @@ export default {
 }
 
 .w-drawer {
-    .el-drawer__body {
+    .list-wrap {
+        height: 100%;
         position: relative;
+
+        .shopcar-sum {
+            width: calc(100% - 20px);
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            height: 40px;
+            background: red;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            padding: 0 10px;
+            color: white;
+        }
     }
 
     .infinite-list {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 100%;
+        height: calc(100% - 40px);
+        overflow: hidden scroll;
+
         .infinite-list-item {
             margin: 0 5px;
             padding: 10px 8px;
@@ -193,20 +220,7 @@ export default {
             }
         }
 
-        .shopcar-sum {
-            width: calc(100% - 20px);
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            height: 40px;
-            background: red;
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            padding: 0 10px;
-            color: white;
-        }
+
     }
 
 }
