@@ -3,7 +3,10 @@ import Router from 'vue-router'
 // import Home from '../components/Home.vue'
 import Login from '../components/Login'
 import NotFound from '../components/NotFound'
-import index from '../components/website/Index'
+import Index from '../components/website/Index'
+import Content from '../components/website/ListForIndex.vue'
+import Details from '../components/website/Details.vue'
+
 Vue.use(Router)
 
 export default new Router({
@@ -40,7 +43,7 @@ export default new Router({
             name: '学生管理',
             iconClass: 'fa fa-users',
             redirect: '/home/student',
-            component: ()=>import('@/components/Home'),
+            component: () => import('@/components/Home'),
             children: [
                 {
                     path: '/home/student',
@@ -67,7 +70,7 @@ export default new Router({
             path: '/home',
             name: '数据分析',
             iconClass: 'fa fa-bar-chart',
-            component: ()=>import('@/components/Home'),
+            component: () => import('@/components/Home'),
             children: [
                 {
                     path: '/home/dataView',
@@ -82,7 +85,7 @@ export default new Router({
             path: '/home',
             name: '用户中心',
             iconClass: 'fa fa-user',
-            component: ()=>import('@/components/Home'),
+            component: () => import('@/components/Home'),
             children: [
                 {
                     path: '/users/user',
@@ -94,8 +97,23 @@ export default new Router({
         },
         {
             path: '/index',
-            component: index,
-        }
+            name: 'index',
+            component: Index,
+            redirect: '/index/content',
+            children: [
+                {
+                    path: '/index/content',
+                    name: 'content',
+                    component: Content
+                },
+                {
+                    path: '/index/details/:id',
+                    name: 'details',
+                    component: Details
+                }
+            ]
+        },
+
     ],
     mode: 'history'
 })

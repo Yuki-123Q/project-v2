@@ -32,12 +32,25 @@ const handleServerError = error => {
   console.log(`Server Error: ${error}`);
   return createResponse(STATUS_CODES.SERVER_ERROR, MESSAGES.SERVER_ERROR);
 }
-//登录
-mock.onPost('/api/login').reply(config => {
+// 数据处理
+const handleParams = params => {
+  if (!params || typeof params !== 'string') {
+    return null;
+  }
   try {
-    const { username, password } = JSON.parse(config.data);
-    if (username !== 'admin') return createResponse(STATUS_CODES.USER_NOT_FOUND, MESSAGES.USER_NOT_FOUND);
-    if (password !== 'Qaz123!') return createResponse(STATUS_CODES.PASSWORD_INCORRECT, MESSAGES.PASSWORD_INCORRECT);
+    return JSON.parse(params);
+  } catch (e) {
+    console.log('数据格式错误');
+    return null;
+  }
+
+}
+//登录
+mock.onPost('/api/login').reply(params => {
+  try {
+    const { username } = handleParams(params.data);
+    // if (username !== 'admin') return createResponse(STATUS_CODES.USER_NOT_FOUND, MESSAGES.USER_NOT_FOUND);
+    // if (password !== 'Qaz123!') return createResponse(STATUS_CODES.PASSWORD_INCORRECT, MESSAGES.PASSWORD_INCORRECT);
     return createResponse(STATUS_CODES.SUCCESS, MESSAGES.LOGIN_SUCCESS, { username, userId: 0 });
   } catch (e) {
     return handleServerError(e);
@@ -50,7 +63,7 @@ let studentsInfo = [...infoData];
 mock.onGet('/api/users').reply(params => {
   try {
     // 查询
-    const paramsData = params.data ? JSON.parse(params.data) : null;
+    const paramsData = handleParams(params.data);
     if (paramsData?.user) {
       let queryStudents = students.filter(item => item.name === paramsData.user);
       return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS, {
@@ -83,7 +96,7 @@ mock.onDelete('/api/student').reply(params => {
 // 获取信息列表
 mock.onGet('/api/info').reply(params => {
   try {
-    const paramsData = params.data ? JSON.parse(params.data) : null;
+    const paramsData = handleParams(params.data);
     if (paramsData) {
       const queryInfo = studentsInfo.filter(item => item.name === paramsData.user);
       return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS, { total: queryInfo.length, data: queryInfo });
@@ -96,7 +109,7 @@ mock.onGet('/api/info').reply(params => {
 //新增信息
 mock.onPost('/api/info').reply(params => {
   try {
-    let addObj = JSON.parse(params.data);
+    let addObj = handleParams(params.data)
     const maxId = studentsInfo.reduce((max, item) => Math.max(max, item.id), 0);
     addObj = { ...addObj, id: maxId + 1 };
     studentsInfo.push(addObj);
@@ -108,7 +121,7 @@ mock.onPost('/api/info').reply(params => {
 //修改信息
 mock.onPut('/api/info').reply(params => {
   try {
-    const updateObj = JSON.parse(params.data);
+    const updateObj = handleParams(params.data)
     studentsInfo.forEach((item, index) => {
       if (item.id === updateObj.id) {
         studentsInfo.splice(index, 1, updateObj);
@@ -139,15 +152,15 @@ mock.onDelete('/api/info').reply(params => {
 let workData = [...workList];
 mock.onGet('/api/work').reply(() => {
   try {
-    return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS,{total: workList.length,data:workData});
+    return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS, { total: workList.length, data: workData });
   } catch (e) {
     return handleServerError(e);
   }
 
 })
 // 数据概览
-mock.onGet('/api/dataview').reply(()=>{
-  return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS,{data:dataView});
+mock.onGet('/api/dataview').reply(() => {
+  return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS, { data: dataView });
 })
 
 /*
@@ -156,7 +169,7 @@ mock.onGet('/api/dataview').reply(()=>{
 // 首页列表/后台分页
 mock.onGet('/api/index').reply(params => {
   try {
-    const paramsData = params.data ? JSON.parse(params.data) : null;
+    const paramsData = handleParams(params.data);
     let listInfo = [...indexList].slice(0, paramsData.pageSize);
     return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS, { data: listInfo });
   }
@@ -167,7 +180,7 @@ mock.onGet('/api/index').reply(params => {
 // 购物车列表
 mock.onGet('/api/shopcar').reply(params => {
   try {
-    const paramsData = JSON.parse(params.data);
+    const paramsData = handleParams(params.data);
     let listInfo = [...indexList];
     // 计算每个商品加入购物车次数
     const ids = paramsData.ids || [];
@@ -179,6 +192,19 @@ mock.onGet('/api/shopcar').reply(params => {
     return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS, { data: shopcarList });
   }
   catch (e) {
+    return handleServerError(e);
+  }
+})
+//商品详情
+mock.onGet('/api/goods').reply(params => {
+  try {
+    const paramsData = handleParams(params.data);
+    const detailItem = indexList.find(item => {
+      return item.id === Number(paramsData.id)
+    }
+    );
+    return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS, { data: detailItem });
+  } catch (e) {
     return handleServerError(e);
   }
 })

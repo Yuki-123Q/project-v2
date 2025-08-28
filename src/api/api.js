@@ -81,3 +81,11 @@ export function GetGoodsList(data){
         data
     })
 }
+// 详情页
+export function GetDetail(data){
+    return service({
+        method: 'get',
+        url: '/goods',
+        data
+    })
+}

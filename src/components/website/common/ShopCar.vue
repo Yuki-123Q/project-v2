@@ -91,7 +91,7 @@ export default {
 .w-shopcar {
     position: fixed;
     right: 5px;
-    bottom: 50px;
+    bottom: 30px;
     z-index: 2001;
 
     .shopcar {

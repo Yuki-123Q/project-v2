@@ -1,8 +1,15 @@
 <template>
     <div class="w-index-list">
+        <el-carousel :interval="5000" height="350px">
+            <el-carousel-item v-for="(item, index) in imgGroup" :key="index">
+                <img :src="item" alt="">
+            </el-carousel-item>
+        </el-carousel>
         <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
             <li v-for="(i, k) in dataList" class="infinite-list-item" :key="k">
-                <img :src="require(`@/assets/img/${i.src}`)" alt="">
+                <router-link :to="{ name: 'details', params: { id: i.id } }">
+                    <img :src="require(`@/assets/img/${i.src}`)" alt="">
+                </router-link>
                 <div class="list-content">
                     <div class="list-info">
                         <div class="list-info-child list-title">{{ i.title }}</div>
@@ -36,6 +43,13 @@ export default {
             count: 10,
             loading: false,
             noMore: false,
+            imgGroup: [
+                require('@/assets/img/s1.jpeg'),
+                require('@/assets/img/s2.jpeg'),
+                require('@/assets/img/s3.jpeg'),
+                require('@/assets/img/s4.jpeg'),
+                require('@/assets/img/s5.jpeg')
+            ],
         }
     },
     mounted() {
@@ -79,6 +93,12 @@ export default {
 <style lang="scss">
 .w-index-list {
     font-size: 12px;
+
+    .el-carousel__item img {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+    }
 
     .infinite-list {
         height: 800px;
