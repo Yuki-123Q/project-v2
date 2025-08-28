@@ -20,7 +20,7 @@
 </template>
 <script>
 import { nameRule, passRule } from '@/utils/validate';
-import {setToken} from '@/utils/setToken.js';
+import { setToken } from '@/utils/setToken.js';
 import { login } from '@/api/api';
 export default {
     data() {
@@ -30,8 +30,8 @@ export default {
                 password: 'Qaz123!'
             },
             rules: {
-                username: [{validator: nameRule, trigger: 'blur'}],
-                password: [{validator: passRule, trigger: 'blur'}],
+                username: [{ validator: nameRule, trigger: 'blur' }],
+                password: [{ validator: passRule, trigger: 'blur' }],
 
             }
         }
@@ -40,13 +40,16 @@ export default {
         loginClick() {
             this.$refs.form.validate((valid) => {
                 if (valid) {
-                    login(this.form).then(res=>{
-                        if(res.status === 200){
+                    login(this.form).then(res => {
+                        if (res.data.status === 200) {
                             setToken('username', res.data.username);
-                            setToken('token',res.data.token);
-                            this.$message({message: res.data.message, type: 'success'});
+                            this.$message({ message: res.data.message, type: 'success' });
                             this.$router.push('/home');
+                        } else {
+                            this.$message.error(res.data.message);
                         }
+                    }).catch(e=>{
+                        this.$message.error(e);
                     })
                 } else {
                     console.error(this.form)

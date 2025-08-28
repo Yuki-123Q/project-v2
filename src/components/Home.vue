@@ -5,7 +5,7 @@
       <Menu />
       <el-container>
         <el-main>
-          <Bread/>
+          <Bread />
           <div class="cont">
             <router-view></router-view>
           </div>
@@ -32,7 +32,7 @@ export default {
   },
   data() {
     return {
-      
+
     }
   }
 }
@@ -48,7 +48,8 @@ export default {
     width: 100%;
     top: 60px;
     bottom: 0;
-    .cont{
+
+    .cont {
       margin: 20px 0;
     }
   }

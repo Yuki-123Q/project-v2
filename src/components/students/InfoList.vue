@@ -155,6 +155,8 @@ export default {
                     const method = this.state ? 'post' : 'put';
                     updateData(this, method, '/info', this.form, this.getInfos);
                     this.$refs.form.resetFields();
+                }else{
+                    console.error(this.form)
                 }
             })
         },

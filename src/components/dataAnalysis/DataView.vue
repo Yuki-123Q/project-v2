@@ -25,7 +25,11 @@ export default {
             if (res.data.status === 200) {
                 let { legend, xAxis, series } = res.data.data;
                 this.draw(legend, xAxis, series);
+            } else {
+                this.$message.error(res.data.message);
             }
+        }).catch(e => {
+            this.$message.error(e);
         })
     },
     mounted() {
@@ -35,7 +39,7 @@ export default {
                 text: '各班级学生数量'
             },
             tooltip: {
-                trigger:'item'
+                trigger: 'item'
             },
             series: [{
                 name: '人数',

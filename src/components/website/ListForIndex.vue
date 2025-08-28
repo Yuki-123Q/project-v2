@@ -63,11 +63,16 @@ export default {
             GetIndexList({ pageSize: this.count }).then(res => {
                 if (res.data.status === 200) {
                     this.dataList = res.data.data;
-                    this.loading = false;
+                } else {
+                    this.$message.error(res.data.message);
                 }
+                this.loading = false;
+            }).catch(e => {
+                this.loading = false;
+                this.$message.error(e);
             })
         },
-        
+
     }
 }
 </script>
