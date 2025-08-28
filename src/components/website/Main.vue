@@ -34,9 +34,9 @@ export default {
         },
         updatePositions() {
             this.positionClasses = this.book.map((_, offset) => {
-                const postion = [1,2,3,4,5];
-                const diff = (offset - this.currentIndex + this.book.length) % this.book.length;
-                return `box${postion[diff]}`
+                const positionMap = ['box1', 'box2', 'box3', 'box4', 'box5'];
+                const index = (offset - this.currentIndex + this.book.length) % this.book.length; 
+                return positionMap[index];
             });
             console.log(this.positionClasses)
         }
@@ -66,7 +66,8 @@ export default {
             transition: 1s;
             cursor: pointer;
         }
-        .box:hover{
+
+        .box:hover {
             box-shadow: 0px 0px 5px white;
         }
 
