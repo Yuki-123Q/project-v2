@@ -29,7 +29,6 @@ export default {
     methods: {
         handleClick(clickedIndex) {
             this.currentIndex = clickedIndex;
-            console.log(this.currentIndex)
             this.updatePositions();
         },
         updatePositions() {
@@ -38,7 +37,6 @@ export default {
                 const index = (offset - this.currentIndex + this.book.length) % this.book.length; 
                 return positionMap[index];
             });
-            console.log(this.positionClasses)
         }
     }
 }
