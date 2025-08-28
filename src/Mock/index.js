@@ -200,7 +200,7 @@ mock.onGet('/api/goods').reply(params => {
   try {
     const paramsData = handleParams(params.data);
     const detailItem = indexList.find(item => {
-      return item.id === Number(paramsData.id)
+      return item.id === paramsData.id;
     }
     );
     return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS, { data: detailItem });

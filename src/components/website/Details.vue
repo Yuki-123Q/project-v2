@@ -20,7 +20,7 @@
                     </div>
                     <div class="good-addShopCar">
                         <div class="good-price">价格：¥<span>{{ item.price }}</span></div>
-                        <el-button type="primary" @click="addShopCar($route.params.id)">
+                        <el-button type="primary" @click="addShopCar(Number($route.params.id))">
                             加入购物车
                         </el-button>
                     </div>
@@ -58,7 +58,7 @@ export default {
         }
     },
     created() {
-        this.getItem(this.$route.params);
+        this.getItem({id: Number(this.$route.params.id)})
     },
     methods: {
         getItem(id) {
