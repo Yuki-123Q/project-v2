@@ -3,7 +3,7 @@
         <el-header>
             <div class="title">通用管理系统</div>
             <div class="h-item">
-                <router-link to="/index">官网首页</router-link>
+                <router-link to="/index">商城首页</router-link>
                 <div class="user">{{ name }}</div>
             </div>
         </el-header>
