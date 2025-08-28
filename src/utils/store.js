@@ -9,7 +9,6 @@ export const store = reactive({
     getShopCarItem() {
         return new Promise((resolve, reject) => {
             GetGoodsList({ ids: store.goodsIds }).then(res => {
-                console.log(res)
                 if (res.data.status === 200) {
                     this.goodsGroup = res.data.data;
                     this.sumCount = this.goodsGroup.reduce((sum, item) => sum + item.count, 0);
