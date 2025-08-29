@@ -6,6 +6,7 @@
                 <el-input v-model="searchText" placeholder="请输入搜索内容">
                     <i slot="prefix" class="el-input__icon el-icon-search"></i>
                 </el-input>
+                <div class="management" @click="toManagement">管理系统</div>
                 <div>{{username}}</div>
             </div>
         </el-header>
@@ -26,6 +27,9 @@ export default {
     methods:{
         back(){
             this.$router.push('/index');
+        },
+        toManagement(){
+            this.$router.push('/home');
         }
     }
 }
@@ -53,6 +57,12 @@ export default {
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
+            .management{
+                cursor: pointer;
+                text-decoration: underline;
+                font-size: 12px;
+                margin-right: 10px;
+            }
         }
 
         .el-input {
