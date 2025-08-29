@@ -171,15 +171,13 @@ export default {
                         border-radius: 18px;
                     }
 
-                    .el-button:hover {
+                    .el-button:hover,
+                    .el-button:focus {
                         background-color: #e72106;
                         border-color: #e72106;
                         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
                     }
                 }
-
-
-
             }
         }
 

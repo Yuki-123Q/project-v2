@@ -11,7 +11,6 @@ export function login(data){
 }
 //获取学生列表
 export function GetStudents(data){
-    console.log(data)
     return service({
         method: 'get',
         url: '/users',
@@ -86,6 +85,14 @@ export function GetDetail(data){
     return service({
         method: 'get',
         url: '/goods',
+        data
+    })
+}
+// 评价列表
+export function GetComment(data){
+    return service({
+        method: 'get',
+        url: '/comment',
         data
     })
 }

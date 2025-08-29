@@ -1,9 +1,7 @@
 <template>
     <div class="w-detail">
         <div class="w-back">
-            <router-link to="/index">
-                <i class="fa fa-angle-left" aria-hidden="true" />
-            </router-link>
+                <i class="fa fa-angle-left" @click="back"/>
         </div>
         <div class="w-content">
             <div class="w-item w-good">
@@ -16,30 +14,59 @@
                             <div class="good-date">日期：{{ item.date }}</div>
                         </div>
                         <div class="good-remark">描述：{{ item.remark }}</div>
-
                     </div>
                     <div class="good-addShopCar">
                         <div class="good-price">价格：¥<span>{{ item.price }}</span></div>
-                        <el-button type="primary" @click="addShopCar(Number($route.params.id))">
+                        <el-button type="primary" @click="addShopCar(item.id)">
                             加入购物车
                         </el-button>
                     </div>
                 </div>
             </div>
             <div class="w-item w-comment">
+                <div class="w-title w-comment-title">
+                    <div class="wc-title">商品评价</div>
+                    <div class="w-rate">
+                        <el-rate v-model="rate" @change="changeRate"></el-rate>
+                    </div>
+                </div>
+                <div class="w-comment-info">
+                    <el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="comment">
+                    </el-input>
+                </div>
+                <div class="w-comment-submit">
+                    <el-button type="primary" @click="submit()">提交</el-button>
+                </div>
+                <div class="w-comment-list">
+                    <ul>
+                        <li class="wc-list-item" v-for="(i, k) in commentList" :key="k">
+                            <div class="wc-list-user">
+                                <div class="wc-list-userinfo">
+                                    <i class="fa fa-user" aria-hidden="true" />
+                                    <div class="wc-username">{{ i.userName }}</div>
+                                </div>
+                                <div class="wc-list-userrate">
+                                    <el-rate v-model="i.level" disabled show-score text-color="#ff9900"
+                                        :score-template="i.level.toString()">
+                                    </el-rate>
+                                </div>
+                            </div>
+                            <div class="wc-list-info">{{ i.msg }}</div>
+                            <div class="wc-list-date">{{ i.time }}</div>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="w-item w-more">
                 <div class="w-title">更多商品</div>
                 <Main />
             </div>
         </div>
-
-
     </div>
 </template>
 <script>
 import Main from './Main';
-import { GetDetail } from '@/api/api';
+import { GetDetail, GetComment } from '@/api/api';
 import { store } from '@/utils/store.js';
 export default {
     components: {
@@ -48,20 +75,30 @@ export default {
     data() {
         return {
             item: {
+                id: null,
                 title: '',
                 src: '',
                 date: '',
                 author: '',
                 price: 0,
                 remark: ''
-            }
+            },
+            rate: null,
+            commentList: [],
+            comment: ''
         }
     },
     created() {
-        this.getItem({id: Number(this.$route.params.id)})
+        this.item.id = Number(this.$route.params.id);
+        this.getGoodsItem({ id: this.item.id });
+        this.getCommentList({ id: this.item.id });
+
     },
     methods: {
-        getItem(id) {
+        back(){
+            this.$router.push('/index');
+        },
+        getGoodsItem(id) {
             GetDetail(id).then(res => {
                 if (res.data.status === 200) {
                     this.item = { ...res.data.data };
@@ -75,6 +112,20 @@ export default {
         addShopCar(id) {
             store.goodsIds.push(id);
             store.getShopCarItem();
+        },
+        changeRate(val) {
+            console.log(val)
+        },
+        getCommentList(id) {
+            GetComment(id).then(res => {
+                if (res.data.status === 200) {
+                    this.commentList = res.data.data.comment;
+                } else {
+                    this.$message.error(res.data.message);
+                }
+            }).catch(e => {
+                this.$message.error(e);
+            })
         }
     }
 }
@@ -85,22 +136,54 @@ export default {
     justify-content: flex-start;
     flex-direction: column;
 
+    .el-button {
+        height: 30px;
+        font-size: 12px;
+        line-height: 30px;
+        color: #FFF;
+        background-color: #e72106;
+        border-color: #e72106;
+        padding: 0 20px;
+        border-radius: 18px;
+    }
+
+    .el-button:hover,
+    .el-button:focus {
+        background-color: #e72106;
+        border-color: #e72106;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
     .w-back {
         text-align: left;
         font-size: 24px;
         color: #808080;
         padding-left: 5px;
+        i{
+            cursor: pointer;
+        }
     }
 
+    .w-title {
+        text-align: left;
+    }
+
+
+
     .w-content {
-        padding: 15px 20px;
-        .w-item{
-            margin-bottom: 40px;
+        padding: 0 20px 15px 20px;
+
+        .w-item {
+            padding: 20px 0;
+            margin-bottom: 15px;
+            border-top: 1px solid red;
         }
+
         .w-good {
             display: flex;
             justify-content: flex-start;
             align-items: flex-start;
+            border: none;
 
             .img {
                 width: 300px;
@@ -163,34 +246,76 @@ export default {
                     position: absolute;
                     bottom: 0;
                     left: 0;
+                }
+            }
+        }
 
-                    .el-button {
-                        height: 30px;
-                        font-size: 12px;
-                        line-height: 30px;
-                        color: #FFF;
-                        background-color: #e72106;
-                        border-color: #e72106;
-                        padding: 0 20px;
-                        border-radius: 18px;
+        .w-comment {
+            .w-comment-title {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                margin-bottom: 10px;
+
+                .wc-title {
+                    margin-right: 10px;
+                }
+            }
+
+            .w-comment-info {
+                margin-left: 74px;
+                margin-bottom: 20px;
+            }
+
+            .w-comment-submit {
+                text-align: right;
+                margin-bottom: 30px;
+            }
+
+            .w-comment-list {
+                .wc-list-item {
+                    text-align: left;
+                    margin: 15px;
+                    padding: 12px 15px;
+                    border-top: 1px solid #f0eded;
+                    padding-bottom: 0;
+
+                    .wc-list-user {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        .wc-list-userinfo {
+                            display: flex;
+                            justify-content: flex-start;
+                            align-items: center;
+
+                            i {
+                                margin-right: 10px;
+                                font-size: 20px;
+                            }
+
+                            .wc-username {
+                                font-size: 14px;
+                            }
+                        }
+
                     }
 
-                    .el-button:hover {
-                        background-color: #e72106;
-                        border-color: #e72106;
-                        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+                    .wc-list-info {
+                        margin: 12px 20px;
+                        font-size: 14px;
+                    }
+
+                    .wc-list-date {
+                        text-align: right;
+                        color: #808080;
                     }
                 }
             }
         }
-        .w-comment{
-            border-bottom: 1px solid red;
-        }
-        .w-more{
-            .w-title{
-                text-align: left;
-            }
-        }
+
+        .w-more {}
     }
 }
 </style>

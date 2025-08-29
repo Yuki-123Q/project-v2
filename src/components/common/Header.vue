@@ -1,9 +1,9 @@
 <template>
     <div class="header">
         <el-header>
-            <div class="title">通用管理系统</div>
+            <div class="title">学生管理系统</div>
             <div class="h-item">
-                <router-link to="/index">商城首页</router-link>
+                <div class="toweb" @click="toWebsite">商城首页</div>
                 <div class="user">{{ name }}</div>
             </div>
         </el-header>
@@ -19,6 +19,11 @@ export default {
     },
     created() {
         this.name = getToken('username');
+    },
+    methods:{
+        toWebsite(){
+            this.$router.push('/index');
+        }
     }
 }
 </script>
@@ -43,8 +48,10 @@ export default {
                 margin-right: 20px;
                 cursor: pointer;
             }
-            .user{
+            .toweb{
                 text-decoration: underline;
+            }
+            .user{
                 margin-left: 10px;
             }
         }

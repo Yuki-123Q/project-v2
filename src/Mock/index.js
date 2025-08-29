@@ -5,6 +5,8 @@ import infoData from './infoList.json';
 import indexList from './listIndex.json';
 import workList from './workList.json';
 import dataView from './dataView.json';
+import commentList from './comment.json';
+
 const mock = new MockAdapter(axios);
 const STATUS_CODES = {
   SUCCESS: 200,
@@ -149,9 +151,10 @@ mock.onDelete('/api/info').reply(params => {
 })
 
 // 获取作业列表
-let workData = [...workList];
+
 mock.onGet('/api/work').reply(() => {
   try {
+    let workData = [...workList];
     return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS, { total: workList.length, data: workData });
   } catch (e) {
     return handleServerError(e);
@@ -199,13 +202,22 @@ mock.onGet('/api/shopcar').reply(params => {
 mock.onGet('/api/goods').reply(params => {
   try {
     const paramsData = handleParams(params.data);
-    const detailItem = indexList.find(item => {
-      return item.id === paramsData.id;
-    }
-    );
+    const detailItem = indexList.find(item => item.id === paramsData.id);
     return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS, { data: detailItem });
   } catch (e) {
     return handleServerError(e);
   }
 })
+// 获取评价信息
+mock.onGet('/api/comment').reply(params => {
+  try {
+    const paramsData = handleParams(params.data);
+    const commentData = commentList.find(item => item.goodsId === paramsData.id);
+    return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS, { data: commentData });
+
+  } catch (e) {
+    return handleServerError(e);
+  }
+})
+
 export default axios;
