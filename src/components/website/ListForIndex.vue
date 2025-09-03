@@ -1,15 +1,13 @@
 <template>
     <div class="w-index-list">
-        <el-carousel :interval="5000" height="350px">
+        <el-carousel :interval="5000">
             <el-carousel-item v-for="(item, index) in imgGroup" :key="index">
                 <img :src="item" alt="">
             </el-carousel-item>
         </el-carousel>
         <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
             <li v-for="(i, k) in dataList" class="infinite-list-item" :key="k">
-                <router-link :to="{ name: 'details', params: { id: i.id } }">
-                    <img :src="require(`@/assets/img/${i.src}`)" alt="">
-                </router-link>
+                <img :src="require(`@/assets/img/${i.src}`)" @click="toDetail(i.id)" alt="">
                 <div class="list-content">
                     <div class="list-info">
                         <div class="list-info-child list-title">{{ i.title }}</div>
@@ -56,6 +54,9 @@ export default {
         this.getData();
     },
     methods: {
+        toDetail(id) {
+            this.$router.push({ name: 'details', params: { id } });
+        },
         addShopCar(id) {
             store.goodsIds.push(id);
             store.getShopCarItem();
@@ -93,6 +94,10 @@ export default {
 <style lang="scss">
 .w-index-list {
     font-size: 12px;
+
+    .el-carousel {
+        height: 320px;
+    }
 
     .el-carousel__item img {
         width: 100%;
@@ -189,5 +194,44 @@ export default {
             color: #b9b9b9;
         }
     }
+}
+
+@media (max-width: 600px) {
+    .w-index-list {
+        .el-carousel {
+            width: 100vw;
+            height: 30vh;
+
+            .el-carousel__container {
+                height: 100%;
+            }
+        }
+
+        .infinite-list {
+            .infinite-list-item {
+                align-items: center;
+                .list-content {
+                    flex-direction: column;
+                    align-items: flex-end;
+
+                    .list-option {
+                        justify-content: space-between;
+                        flex-direction: row;
+                        align-items: center;
+
+                        .list-price {
+                            width: 20vw;
+                            text-align: left;
+                        }
+
+                        .el-button {
+                            margin-left: 20px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
 </style>

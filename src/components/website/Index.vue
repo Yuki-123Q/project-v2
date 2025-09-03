@@ -33,7 +33,7 @@ export default {
     .el-container {
         display: flex;
         flex-direction: column;
-        margin-top: 65px;
+        margin-top: 60px;
 
     }
 }

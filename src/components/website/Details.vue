@@ -1,7 +1,7 @@
 <template>
     <div class="w-detail">
         <div class="w-back">
-                <i class="fa fa-angle-left" @click="back"/>
+            <i class="fa fa-angle-left" @click="back" />
         </div>
         <div class="w-content">
             <div class="w-item w-good">
@@ -95,7 +95,7 @@ export default {
 
     },
     methods: {
-        back(){
+        back() {
             this.$router.push('/index');
         },
         getGoodsItem(id) {
@@ -132,6 +132,7 @@ export default {
 </script>
 <style lang="scss">
 .w-detail {
+    margin-top: 10px;
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
@@ -159,7 +160,8 @@ export default {
         font-size: 24px;
         color: #808080;
         padding-left: 5px;
-        i{
+
+        i {
             cursor: pointer;
         }
     }
@@ -207,6 +209,10 @@ export default {
                     font-size: 24px;
                     font-weight: bold;
                     margin-bottom: 15px;
+                    max-width: 500px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
                 }
 
                 .good-detail {
@@ -314,8 +320,21 @@ export default {
                 }
             }
         }
-
-        .w-more {}
     }
+}
+
+@media (max-width: 500px) {
+    .w-detail {
+        .w-content {
+            .w-good {
+                .w-good-detail {
+                    .good-title {
+                        max-width: 250px;
+                    }
+                }
+            }
+        }
+    }
+
 }
 </style>

@@ -117,6 +117,13 @@ export default {
     }
 }
 
+@media (max-width: 500px) {
+    .w-shopcar {
+        bottom: 10vh;
+        right: 1vw;
+    }
+}
+
 .w-drawer {
     .list-wrap {
         height: 100%;

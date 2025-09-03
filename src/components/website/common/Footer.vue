@@ -6,13 +6,23 @@
     </div>
 </template>
 <style lang="scss">
-.w-footer{
+.w-footer {
     margin-top: 20px;
-    background: rgba(101,92,92,1);
+    background: rgba(101, 92, 92, 1);
     color: white;
-    .el-footer{
+    z-index: 2000;
+    .el-footer {
         padding: 0;
         line-height: 60px;
+    }
+}
+
+@media (max-width: 500px) {
+    .w-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
     }
 }
 </style>

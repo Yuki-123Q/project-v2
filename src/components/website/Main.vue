@@ -101,4 +101,37 @@ export default {
     }
 
 }
+@media (max-width: 500px) {
+    .w-main{
+        margin-bottom: 40px;
+        .wrap{
+            width: 75px;
+            height: 100px;
+            .box1 {
+            transform: translate3d(0px, 0px, 50px) scale3d(1, 1, 1);
+            z-index: 999;
+        }
+
+        .box2 {
+            transform: translate3d(120px, -10px, 50px) scale3d(0.9, 0.9, 0.9);
+            z-index: 998;
+        }
+
+        .box3 {
+            transform: translate3d(50px, -30px, 100px) scale3d(0.8, 0.8, 0.8);
+            z-index: 997;
+        }
+
+        .box4 {
+            transform: translate3d(-50px, -30px, 100px) scale3d(0.8, 0.8, 0.8);
+            z-index: 997;
+        }
+
+        .box5 {
+            transform: translate3d(-120px, -10px, 50px) scale3d(0.9, 0.9, 0.9);
+            z-index: 998;
+        }
+        }
+    }
+}
 </style>

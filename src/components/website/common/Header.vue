@@ -42,7 +42,7 @@ export default {
     position: fixed;
     left: 0;
     top: 0;
-    width: 100%;
+    width: 100vw;
     z-index: 2000;
 
     .el-header {
@@ -79,6 +79,17 @@ export default {
                 height: 30px;
                 line-height: 30px;
                 font-size: 12px;
+            }
+        }
+    }
+}
+@media (max-width: 500px) {
+    .w-header{
+
+        .el-header{
+            padding: 0 10px;
+            .el-input{
+                width: 40vw;
             }
         }
     }
