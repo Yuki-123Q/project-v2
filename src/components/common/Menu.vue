@@ -1,6 +1,6 @@
 <template>
     <div class="menu">
-        <el-aside width="200px">
+        <el-aside>
             <el-menu router default-active="2" class="el-menu-vertical-demo" background-color="#2578b5"
                 text-color="#fff" active-text-color="#ffd04b">
                 <template v-for="(item, index) in menus">
@@ -38,6 +38,7 @@ export default {
 <style lang="scss">
 .menu {
     .el-aside {
+        width: 200px!important;
         height: 100%;
 
         .el-menu {
@@ -58,6 +59,13 @@ export default {
             i {
                 font-size: 12px;
             }
+        }
+    }
+}
+@media (max-width: 500px) {
+    .menu{
+        .el-aside{
+            width: 30vw!important;
         }
     }
 }

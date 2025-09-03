@@ -48,7 +48,7 @@ export default {
                         } else {
                             this.$message.error(res.data.message);
                         }
-                    }).catch(e=>{
+                    }).catch(e => {
                         this.$message.error(e);
                     })
                 } else {
@@ -76,6 +76,15 @@ export default {
 
         .el-button {
             width: 100%;
+        }
+    }
+}
+
+@media (max-width:500px) {
+    .login {
+        .box-card {
+            width: 90vw;
+            margin: 30vh auto;
         }
     }
 }
