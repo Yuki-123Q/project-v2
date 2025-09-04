@@ -68,6 +68,7 @@
 import Main from './Main';
 import { GetDetail, GetComment } from '@/api/api';
 import { store } from '@/utils/store.js';
+import { setToken } from '@/utils/setToken';
 export default {
     components: {
         Main
@@ -111,6 +112,7 @@ export default {
         },
         addShopCar(id) {
             store.goodsIds.push(id);
+            setToken('goodsIds',JSON.stringify(store.goodsIds));
             store.getShopCarItem();
         },
         changeRate(val) {

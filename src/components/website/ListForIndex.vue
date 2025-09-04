@@ -34,6 +34,7 @@
 import { GetIndexList } from '@/api/api';
 import indexList from '@/Mock/listIndex.json';
 import { store } from '@/utils/store.js';
+import { setToken } from '@/utils/setToken';
 export default {
     data() {
         return {
@@ -59,6 +60,7 @@ export default {
         },
         addShopCar(id) {
             store.goodsIds.push(id);
+            setToken('goodsIds',JSON.stringify(store.goodsIds));
             store.getShopCarItem();
         },
         load() {

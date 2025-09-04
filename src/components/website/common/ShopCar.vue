@@ -35,7 +35,11 @@
                 </ul>
                 <div class="shopcar-sum">
                     <div class="shopcar-sum-price">¥{{ sumPrice }}</div>
-                    <div class="shopcar-to-sum">去结算</div>
+                    <div class="shopcar-sum-opt">
+                        <div class="shopcar-clear" @click="clear()">清空</div>
+                        <span class="shopcar-cutline">|</span>
+                        <div class="shopcar-to-sum">结算</div>
+                    </div>
                 </div>
             </div>
         </el-drawer>
@@ -43,6 +47,7 @@
 </template>
 <script>
 import { store } from '@/utils/store.js';
+import { setToken, removeToken } from '@/utils/setToken';
 export default {
     data() {
         return {
@@ -67,6 +72,7 @@ export default {
         },
         async addItem(id) {
             store.goodsIds.push(id);
+            setToken('goodsIds', JSON.stringify(store.goodsIds));
             try {
                 await store.getShopCarItem();
                 this.goodsGroup = store.goodsGroup;
@@ -76,13 +82,32 @@ export default {
         },
         async removeItem(id) {
             const index = store.goodsIds.indexOf(id);
-            if (index !== -1) store.goodsIds.splice(index, 1);
+            if (index !== -1) {
+                store.goodsIds.splice(index, 1);
+                setToken('goodsIds', JSON.stringify(store.goodsIds));
+            }
             try {
                 await store.getShopCarItem();
                 this.goodsGroup = store.goodsGroup;
             } catch (e) {
                 console.log('失败', e);
             }
+        },
+        clear() {
+            this.$confirm('确定清空购物车？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消'
+            }).then(() => {
+                store.goodsGroup = [];
+                store.sumCount = 0;
+                store.sumPrice = 0;
+                this.goodsGroup = store.goodsGroup;
+                removeToken('goodsGroup');
+                removeToken('goodsIds');
+                removeToken('sumPrice');
+                removeToken('sumCount');
+                this.drawer = false;
+            })
         }
     }
 }
@@ -114,6 +139,12 @@ export default {
             font-size: 48px;
             color: red;
         }
+    }
+}
+
+@media screen and (max-width: 730px) and (min-width: 500px) {
+    .el-drawer {
+        width: 50% !important;
     }
 }
 
@@ -150,6 +181,22 @@ export default {
             bottom: 0;
             padding: 0 10px;
             color: white;
+
+            .shopcar-sum-opt {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .shopcar-clear,
+                .shopcar-to-sum {
+                    cursor: pointer;
+                }
+
+                .shopcar-cutline {
+                    font-size: 13px;
+                    margin: 0 3px;
+                }
+            }
         }
     }
 
