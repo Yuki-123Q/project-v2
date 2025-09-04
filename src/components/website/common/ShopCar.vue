@@ -102,10 +102,8 @@ export default {
                 store.sumCount = 0;
                 store.sumPrice = 0;
                 this.goodsGroup = store.goodsGroup;
-                removeToken('goodsGroup');
-                removeToken('goodsIds');
-                removeToken('sumPrice');
-                removeToken('sumCount');
+                const items = ['goodsGroup','goodsIds','sumPrice','sumCount'];
+                removeToken(items);
                 this.drawer = false;
             })
         }

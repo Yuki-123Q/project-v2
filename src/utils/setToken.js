@@ -5,5 +5,8 @@ export function getToken(tokenKey) {
     return localStorage.getItem(tokenKey);
 }
 export function removeToken(tokenKey) {
-    localStorage.removeItem(tokenKey);
+    const keys = Array.isArray(tokenKey) ? tokenKey : [tokenKey];
+    keys.forEach(item => {
+        localStorage.removeItem(item);
+    })
 }
