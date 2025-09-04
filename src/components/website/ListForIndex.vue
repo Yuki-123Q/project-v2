@@ -1,12 +1,11 @@
 <template>
     <div class="w-index-list">
-        <el-carousel :interval="5000">
+        <div class="list-container" v-infinite-scroll="load" :infinite-scroll-disabled="isDisabled" style="overflow:auto">
+            <el-carousel :interval="5000">
                 <el-carousel-item v-for="(item, index) in imgGroup" :key="index">
                     <img :src="item" alt="">
                 </el-carousel-item>
             </el-carousel>
-        <div class="list-container" v-infinite-scroll="load" style="overflow:auto">
-            
             <ul class="infinite-list">
                 <li v-for="(i, k) in dataList" class="infinite-list-item" :key="k">
                     <img :src="require(`@/assets/img/${i.src}`)" @click="toDetail(i.id)" alt="">
@@ -27,9 +26,9 @@
                         </div>
                     </div>
                 </li>
-                <p v-if="loading">加载中...</p>
-                <p v-if="noMore">没有更多了</p>
             </ul>
+            <p v-if="loading">加载中...</p>
+            <p v-if="noMore">没有更多了</p>
         </div>
     </div>
 </template>
@@ -57,6 +56,11 @@ export default {
     mounted() {
         this.getData();
     },
+    computed:{
+        isDisabled(){
+            return this.loading || this.noMore;
+        }
+    },
     methods: {
         toDetail(id) {
             this.$router.push({ name: 'details', params: { id } });
@@ -67,7 +71,6 @@ export default {
             store.getShopCarItem();
         },
         load() {
-            console.log(111)
             this.loading = true
             if (this.count >= indexList.length) {
                 this.loading = false;
@@ -114,8 +117,8 @@ export default {
     }
 
     .list-container {
+        padding-bottom: 20px;
         .infinite-list {
-            padding-bottom: 20px;
 
             .infinite-list-item {
                 margin: 20px 8px;
@@ -209,9 +212,9 @@ export default {
                 box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
             }
 
-            p {
-                color: #b9b9b9;
-            }
+        }
+        p {
+            color: #b9b9b9;
         }
     }
 }
@@ -222,10 +225,6 @@ export default {
 
 @media (max-width: 600px) {
     .w-index-list {
-        .list-container {
-            height: calc(70vh - 120px);
-        }
-
         .el-carousel {
             width: 100vw;
             height: 30vh;

@@ -152,7 +152,7 @@ export default {
 
 @media (max-width: 500px) {
     .w-shopcar {
-        bottom: 10vh;
+        bottom: 7vh;
         right: 1vw;
     }
 
