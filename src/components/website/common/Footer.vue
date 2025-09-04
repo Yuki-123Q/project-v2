@@ -7,9 +7,7 @@
 </template>
 <style lang="scss">
 .w-footer {
-    margin-top: 20px;
     background: rgba(101, 92, 92, 1);
-    color: white;
     z-index: 2000;
     .el-footer {
         padding: 0;

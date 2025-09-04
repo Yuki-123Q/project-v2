@@ -1,11 +1,14 @@
 <template>
     <div class="w-index-list">
-        <el-carousel :interval="5000">
-            <el-carousel-item v-for="(item, index) in imgGroup" :key="index">
-                <img :src="item" alt="">
-            </el-carousel-item>
-        </el-carousel>
+
         <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
+            <li>
+                <el-carousel :interval="5000">
+                    <el-carousel-item v-for="(item, index) in imgGroup" :key="index">
+                        <img :src="item" alt="">
+                    </el-carousel-item>
+                </el-carousel>
+            </li>
             <li v-for="(i, k) in dataList" class="infinite-list-item" :key="k">
                 <img :src="require(`@/assets/img/${i.src}`)" @click="toDetail(i.id)" alt="">
                 <div class="list-content">
@@ -60,7 +63,7 @@ export default {
         },
         addShopCar(id) {
             store.goodsIds.push(id);
-            setToken('goodsIds',JSON.stringify(store.goodsIds));
+            setToken('goodsIds', JSON.stringify(store.goodsIds));
             store.getShopCarItem();
         },
         load() {
@@ -99,6 +102,9 @@ export default {
 
     .el-carousel {
         height: 320px;
+        .el-carousel__container{
+            height: 100%;
+        }
     }
 
     .el-carousel__item img {
@@ -109,7 +115,7 @@ export default {
 
     .infinite-list {
         height: 800px;
-
+        padding-bottom: 20px;
         .infinite-list-item {
             margin: 20px 8px;
             padding: 15px 12px;
@@ -221,6 +227,7 @@ export default {
 
         .infinite-list {
             padding-bottom: 80px;
+
             .infinite-list-item {
                 align-items: center;
                 padding: 8px;

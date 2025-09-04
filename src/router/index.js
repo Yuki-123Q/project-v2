@@ -1,11 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Home from '../components/Home.vue'
 import Login from '../components/Login'
-import NotFound from '../components/NotFound'
-import Index from '../components/website/Index'
-import Content from '../components/website/ListForIndex.vue'
-import Details from '../components/website/Details.vue'
 
 Vue.use(Router)
 
@@ -15,29 +10,20 @@ export default new Router({
             path: '/',
             redirect: '/login',
             hidden: true,
-            // component: () => import('@/components/Login')//懒加载
             component: Login
         },
         {
             path: '/login',
             name: 'Login',
             hidden: true,
-            // component: () => import('@/components/Login')
             component: Login
         },
         {
             path: '*',
             name: 'NotFound',
             hidden: true,
-            // component: () => import('@/components/NotFound')
-            component: NotFound
+            component: ()=>import('@/components/NotFound')
         },
-        // {
-        //     path: '/home',
-        //     // component: Home
-        //     // component: () => import('@/components/Home')//懒加载
-        //     component: resolve => require(['@/components/Home'], resolve)//异步组件加载
-        // },
         {
             path: '/home',
             name: '学生管理',
@@ -98,18 +84,18 @@ export default new Router({
         {
             path: '/index',
             name: 'index',
-            component: Index,
+            component: ()=>import('@/components/website/Index'),
             redirect: '/index/content',
             children: [
                 {
                     path: '/index/content',
                     name: 'content',
-                    component: Content
+                    component: ()=>import('@/components/website/ListForIndex')
                 },
                 {
                     path: '/index/details/:id',
                     name: 'details',
-                    component: Details
+                    component: ()=>import('@/components/website/Details')
                 }
             ]
         },
