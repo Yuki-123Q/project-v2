@@ -1,7 +1,8 @@
 <template>
     <div class="w-index-list">
-        <div class="list-container" v-infinite-scroll="load" :infinite-scroll-disabled="isDisabled" style="overflow:auto">
-            <el-carousel :interval="5000">
+        <div class="list-container" v-infinite-scroll="load" :infinite-scroll-disabled="isDisabled"
+            style="overflow:auto">
+            <el-carousel ref="slideCarousel" :interval="5000">
                 <el-carousel-item v-for="(item, index) in imgGroup" :key="index">
                     <img :src="item" alt="">
                 </el-carousel-item>
@@ -51,17 +52,52 @@ export default {
                 require('@/assets/img/s4.jpeg'),
                 require('@/assets/img/s5.jpeg')
             ],
+            start: 0,
+            end: 0
         }
     },
     mounted() {
         this.getData();
+        this.touchSlide();
     },
-    computed:{
-        isDisabled(){
+    computed: {
+        isDisabled() {
             return this.loading || this.noMore;
         }
     },
     methods: {
+        touchSlide() {
+            const box = document.querySelector('.el-carousel__container');
+            box.addEventListener('touchstart', e => {
+                console.log(e)
+                this.start = e.changedTouches[0].pageX;
+            });
+            box.addEventListener('touchmove', e => {
+                console.log(e)
+                this.end = e.changedTouches[0].pageX;
+            });
+            box.addEventListener('touched', () => {
+                console.log(1)
+                if (this.end == 0 || this.start - this.end == 0) {
+                    this.resetPoint();
+                    return;
+                }
+                if (this.start - this.end > 0) {
+                    this.resetPoint();
+                    this.$refs.slideCarousel.next();
+                    return;
+                }
+                if (this.start - this.end < 0) {
+                    this.resetPoint();
+                    this.$refs.slideCarousel.prev();
+                    return;
+                }
+            })
+        },
+        resetPoint() {
+            this.start = 0;
+            this.end = 0;
+        },
         toDetail(id) {
             this.$router.push({ name: 'details', params: { id } });
         },
@@ -71,7 +107,7 @@ export default {
             store.getShopCarItem();
         },
         load() {
-            this.loading = true
+            this.loading = true;
             if (this.count >= indexList.length) {
                 this.loading = false;
                 this.noMore = true;
@@ -108,6 +144,10 @@ export default {
         .el-carousel__container {
             height: 100%;
         }
+
+        .el-carousel__indicators--horizontal {
+            white-space: nowrap;
+        }
     }
 
     .el-carousel__item img {
@@ -118,6 +158,7 @@ export default {
 
     .list-container {
         padding-bottom: 20px;
+
         .infinite-list {
 
             .infinite-list-item {
@@ -213,6 +254,7 @@ export default {
             }
 
         }
+
         p {
             color: #b9b9b9;
         }
