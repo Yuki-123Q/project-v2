@@ -102,6 +102,7 @@ export default {
                 customClass: 'deleteShopcar'
             }).then(() => {
                 store.goodsGroup = [];
+                store.goodsIds = [];
                 store.sumCount = 0;
                 store.sumPrice = 0;
                 this.goodsGroup = store.goodsGroup;

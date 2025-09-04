@@ -1,14 +1,13 @@
 <template>
     <div class="w-index-list">
+        <el-carousel :interval="5000">
+                <el-carousel-item v-for="(item, index) in imgGroup" :key="index">
+                    <img :src="item" alt="">
+                </el-carousel-item>
+            </el-carousel>
         <div class="list-container" v-infinite-scroll="load" style="overflow:auto">
+            
             <ul class="infinite-list">
-                <li>
-                    <el-carousel :interval="5000">
-                        <el-carousel-item v-for="(item, index) in imgGroup" :key="index">
-                            <img :src="item" alt="">
-                        </el-carousel-item>
-                    </el-carousel>
-                </li>
                 <li v-for="(i, k) in dataList" class="infinite-list-item" :key="k">
                     <img :src="require(`@/assets/img/${i.src}`)" @click="toDetail(i.id)" alt="">
                     <div class="list-content">
@@ -68,6 +67,7 @@ export default {
             store.getShopCarItem();
         },
         load() {
+            console.log(111)
             this.loading = true
             if (this.count >= indexList.length) {
                 this.loading = false;
@@ -133,7 +133,7 @@ export default {
                 }
 
                 .list-content {
-                    width: calc(100% - 156px);
+                    width: calc(100% - 146px);
                     display: flex;
                     flex-direction: row;
                     justify-content: space-between;
@@ -223,7 +223,7 @@ export default {
 @media (max-width: 600px) {
     .w-index-list {
         .list-container {
-            height: calc(100vh - 120px);
+            height: calc(70vh - 120px);
         }
 
         .el-carousel {
