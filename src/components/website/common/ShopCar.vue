@@ -94,15 +94,18 @@ export default {
             }
         },
         clear() {
+            if(!this.goodsGroup.length) return;
             this.$confirm('确定清空购物车？', '提示', {
                 confirmButtonText: '确定',
-                cancelButtonText: '取消'
+                cancelButtonText: '取消',
+                center: true,
+                customClass: 'deleteShopcar'
             }).then(() => {
                 store.goodsGroup = [];
                 store.sumCount = 0;
                 store.sumPrice = 0;
                 this.goodsGroup = store.goodsGroup;
-                const items = ['goodsGroup','goodsIds','sumPrice','sumCount'];
+                const items = ['goodsGroup', 'goodsIds', 'sumPrice', 'sumCount'];
                 removeToken(items);
                 this.drawer = false;
             })
@@ -158,6 +161,10 @@ export default {
 
     .w-drawer .infinite-list .infinite-list-item .list-content .list-info .list-info-author .list-author {
         margin-right: 5px;
+    }
+
+    .deleteShopcar {
+        margin-top: 30vh;
     }
 }
 
