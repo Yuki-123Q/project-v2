@@ -83,6 +83,7 @@ export default {
 
             .el-dropdown-link {
                 cursor: pointer;
+                text-decoration: underline;
                 color: #fff;
             }
 
