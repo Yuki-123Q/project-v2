@@ -2,15 +2,20 @@
     <div class="header">
         <el-header>
             <div class="title">学生管理系统</div>
-            <div class="h-item">
-                <div class="toweb" @click="toWebsite">商城首页</div>
-                <div class="user">{{ name }}</div>
-            </div>
+            <el-dropdown @command="handleCommand">
+                <span class="el-dropdown-link">
+                    {{ name }}
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item command="shop">网上商城</el-dropdown-item>
+                    <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
         </el-header>
     </div>
 </template>
 <script>
-import { getToken } from '@/utils/setToken.js';
+import { getToken, removeToken } from '@/utils/setToken.js';
 export default {
     data() {
         return {
@@ -20,9 +25,23 @@ export default {
     created() {
         this.name = getToken('username');
     },
-    methods:{
-        toWebsite(){
+    methods: {
+        handleCommand(command) {
+            switch (command) {
+                case 'shop':
+                    this.toWebsite();
+                    break;
+                case 'logout':
+                    this.logout();
+                    break;
+            }
+        },
+        toWebsite() {
             this.$router.push('/index');
+        },
+        logout() {
+            removeToken('username');
+            this.$router.push('/login');
         }
     }
 }
@@ -40,21 +59,39 @@ export default {
             width: 200px;
             font-size: 24px;
         }
-        .h-item{
+
+        .el-dropdown-link {
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .el-icon-arrow-down {
+            font-size: 12px;
+        }
+
+
+        .h-item {
             display: flex;
             justify-content: space-around;
             align-items: center;
-            div{
+
+            div {
                 margin-right: 20px;
                 cursor: pointer;
             }
-            .toweb{
+
+            .toweb {
                 text-decoration: underline;
             }
-            .user{
+
+            .user {
                 margin-left: 10px;
             }
         }
     }
+}
+
+.el-dropdown-menu {
+    min-width: 96px;
 }
 </style>

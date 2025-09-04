@@ -11,8 +11,8 @@
                 <div class="list-content">
                     <div class="list-info">
                         <div class="list-info-child list-title">{{ i.title }}</div>
-                        <div class="list-info-child list-author">
-                            <span>{{ i.author }}</span>
+                        <div class="list-info-child list-author-info">
+                            <span class="list-author">{{ i.author }}</span>
                             <span>{{ i.date }}</span>
                         </div>
                         <div class="list-info-child list-remark">{{ i.remark }}</div>
@@ -146,6 +146,16 @@ export default {
                         text-overflow: ellipsis;
                         white-space: nowrap;
                     }
+
+                    .list-author-info {
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+
+                        .list-author {
+                            margin-right: 10px;
+                        }
+                    }
                 }
 
                 .list-option {
@@ -208,8 +218,12 @@ export default {
         }
 
         .infinite-list {
+            padding-bottom: 80px;
             .infinite-list-item {
                 align-items: center;
+                padding: 8px;
+                margin: 15px 12px;
+
                 .list-content {
                     flex-direction: column;
                     align-items: flex-end;
@@ -218,6 +232,7 @@ export default {
                         justify-content: space-between;
                         flex-direction: row;
                         align-items: center;
+                        width: 100%;
 
                         .list-price {
                             width: 20vw;

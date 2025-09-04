@@ -62,11 +62,4 @@ export default {
         }
     }
 }
-@media (max-width: 500px) {
-    .menu{
-        .el-aside{
-            width: 30vw!important;
-        }
-    }
-}
 </style>

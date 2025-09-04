@@ -6,14 +6,21 @@
                 <el-input v-model="searchText" placeholder="请输入搜索内容">
                     <i slot="prefix" class="el-input__icon el-icon-search"></i>
                 </el-input>
-                <div class="management" @click="toManagement">管理系统</div>
-                <div>{{username}}</div>
+                <el-dropdown @command="handleCommand">
+                    <span class="el-dropdown-link">
+                        {{ username }}
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item command="shop">管理系统</el-dropdown-item>
+                        <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
             </div>
         </el-header>
     </div>
 </template>
 <script>
-import { getToken } from '@/utils/setToken';
+import { getToken, removeToken } from '@/utils/setToken';
 export default {
     data() {
         return {
@@ -21,14 +28,28 @@ export default {
             username: ''
         }
     },
-    created(){
+    created() {
         this.username = getToken('username');
     },
-    methods:{
-        back(){
+    methods: {
+        handleCommand(command) {
+            switch (command) {
+                case 'shop':
+                    this.toManagement();
+                    break;
+                case 'logout':
+                    this.logout();
+                    break;
+            }
+        },
+        logout() {
+            removeToken('username');
+            this.$router.push('/login');
+        },
+        back() {
             this.$router.push('/index');
         },
-        toManagement(){
+        toManagement() {
             this.$router.push('/home');
         }
     }
@@ -49,20 +70,26 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        .logo{
+
+        .logo {
             cursor: pointer;
         }
+
         .w_header_right {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
-            .management{
+
+            .el-dropdown-link {
                 cursor: pointer;
-                text-decoration: underline;
-                font-size: 12px;
-                margin-right: 10px;
+                color: #fff;
             }
+
+            .el-icon-arrow-down {
+                font-size: 12px;
+            }
+
         }
 
         .el-input {
@@ -83,12 +110,14 @@ export default {
         }
     }
 }
-@media (max-width: 500px) {
-    .w-header{
 
-        .el-header{
+@media (max-width: 500px) {
+    .w-header {
+
+        .el-header {
             padding: 0 10px;
-            .el-input{
+
+            .el-input {
                 width: 40vw;
             }
         }

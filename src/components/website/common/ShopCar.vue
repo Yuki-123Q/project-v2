@@ -14,8 +14,8 @@
                         <div class="list-content">
                             <div class="list-info">
                                 <div class="list-info-child list-title" :title="item.title">{{ item.title }}</div>
-                                <div class="list-info-child list-author">
-                                    <span>{{ item.author }}</span>
+                                <div class="list-info-child list-info-author">
+                                    <span class="list-author">{{ item.author }}</span>
                                     <span>{{ item.date }}</span>
                                 </div>
                             </div>
@@ -121,6 +121,14 @@ export default {
     .w-shopcar {
         bottom: 10vh;
         right: 1vw;
+    }
+
+    .el-drawer {
+        width: 75% !important;
+    }
+
+    .w-drawer .infinite-list .infinite-list-item .list-content .list-info .list-info-author .list-author {
+        margin-right: 5px;
     }
 }
 

@@ -16,7 +16,7 @@
                         <div class="good-remark">描述：{{ item.remark }}</div>
                     </div>
                     <div class="good-addShopCar">
-                        <div class="good-price">价格：¥<span>{{ item.price }}</span></div>
+                        <div class="good-price">¥{{ item.price }}</div>
                         <el-button type="primary" @click="addShopCar(item.id)">
                             加入购物车
                         </el-button>
@@ -188,13 +188,10 @@ export default {
             border: none;
 
             .img {
-                width: 300px;
-                height: 300px;
-                background: red;
+                width: 280px;
+                height: 280px;
+                background-size: 100%;
                 margin-right: 20px;
-                background-size: cover;
-                background-position: center;
-                background-repeat: no-repeat;
             }
 
             .w-good-detail {
@@ -202,7 +199,7 @@ export default {
                 justify-content: flex-start;
                 align-items: flex-start;
                 flex-direction: column;
-                height: 300px;
+                width: calc(100% - 300px);
                 position: relative;
 
                 .good-title {
@@ -228,20 +225,24 @@ export default {
                         flex-direction: row;
                         color: #808080;
                         margin-bottom: 10px;
+
+                        .good-author,
+                        .good-date {
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
                     }
 
                     .good-remark {
                         text-align: left;
                         margin-bottom: 30px;
+                        min-height: 190px;
                     }
-
-
                 }
 
                 .good-price {
-                    span {
-                        color: red;
-                    }
+                    color: red;
                 }
 
                 .good-addShopCar {
@@ -251,7 +252,7 @@ export default {
                     align-items: center;
                     position: absolute;
                     bottom: 0;
-                    left: 0;
+                    right: 0;
                 }
             }
         }
@@ -326,10 +327,34 @@ export default {
 @media (max-width: 500px) {
     .w-detail {
         .w-content {
+
             .w-good {
+                .img {
+                    width: 180px;
+                    height: 180px;
+                }
+
                 .w-good-detail {
+                    width: calc(100% - 200px);
+
                     .good-title {
-                        max-width: 250px;
+                        max-width: 180px;
+                    }
+
+                    .good-detail {
+                        .good-info {
+                            flex-direction: column;
+                            justify-content: flex-start;
+                            align-items: flex-start;
+                            .good-author{
+                                margin-bottom: 5px;
+                            }
+                        }
+
+                        .good-remark {
+                            min-height: 75px;
+                        }
+
                     }
                 }
             }

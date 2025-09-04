@@ -41,11 +41,13 @@ export default {
 <style lang="scss">
 .home {
   width: 100%;
+  min-width: 700px;
   height: 100%;
 
   .content {
     position: absolute;
     width: 100%;
+    min-width: 700px;
     top: 60px;
     bottom: 0;
 
