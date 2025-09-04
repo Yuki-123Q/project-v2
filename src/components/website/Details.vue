@@ -25,17 +25,19 @@
             </div>
             <div class="w-item w-comment">
                 <div class="w-title w-comment-title">
-                    <div class="wc-title">商品评价</div>
-                    <div class="w-rate">
-                        <el-rate v-model="rate" @change="changeRate"></el-rate>
+                    <div class="wc-comment-left">
+                        <div class="wc-title">商品评价</div>
+                        <div class="w-rate">
+                            <el-rate v-model="rate" @change="changeRate"></el-rate>
+                        </div>
+                    </div>
+                    <div class="w-comment-submit">
+                        <el-button type="primary" @click="submit()">提交</el-button>
                     </div>
                 </div>
                 <div class="w-comment-info">
                     <el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="comment">
                     </el-input>
-                </div>
-                <div class="w-comment-submit">
-                    <el-button type="primary" @click="submit()">提交</el-button>
                 </div>
                 <div class="w-comment-list">
                     <ul>
@@ -112,7 +114,7 @@ export default {
         },
         addShopCar(id) {
             store.goodsIds.push(id);
-            setToken('goodsIds',JSON.stringify(store.goodsIds));
+            setToken('goodsIds', JSON.stringify(store.goodsIds));
             store.getShopCarItem();
         },
         changeRate(val) {
@@ -262,23 +264,28 @@ export default {
         .w-comment {
             .w-comment-title {
                 display: flex;
-                justify-content: flex-start;
+                justify-content: space-between;
                 align-items: center;
-                margin-bottom: 10px;
+                margin-bottom: 20px;
 
-                .wc-title {
-                    margin-right: 10px;
+                .wc-comment-left {
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+
+                    .wc-title {
+                        margin-right: 10px;
+                    }
                 }
+
             }
 
             .w-comment-info {
-                margin-left: 74px;
                 margin-bottom: 20px;
             }
 
             .w-comment-submit {
                 text-align: right;
-                margin-bottom: 30px;
             }
 
             .w-comment-list {
@@ -348,7 +355,8 @@ export default {
                             flex-direction: column;
                             justify-content: flex-start;
                             align-items: flex-start;
-                            .good-author{
+
+                            .good-author {
                                 margin-bottom: 5px;
                             }
                         }
