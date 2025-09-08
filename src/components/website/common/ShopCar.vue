@@ -94,7 +94,7 @@ export default {
             }
         },
         clear() {
-            if(!this.goodsGroup.length) return;
+            if (!this.goodsGroup.length) return;
             this.$confirm('确定清空购物车？', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
@@ -291,5 +291,37 @@ export default {
 
     }
 
+}
+
+.deleteShopcar {
+    .el-button {
+        height: 30px;
+        font-size: 12px;
+        line-height: 30px;
+        padding: 0 20px;
+        border-radius: 18px;
+    }
+
+    .el-button--default:hover,
+    .el-button--default:focus{
+        border-color: #e72106;
+        color: #e72106;
+        background-color: #fff;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .el-button--primary:hover,
+    .el-button--primary:focus {
+        background-color: #e72106;
+        border-color: #e72106;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        color: #fff;
+    }
+
+    .el-button--primary {
+        color: #FFF;
+        background-color: #e72106;
+        border-color: #e72106;
+
+    }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
-    <div class="w-index-list" style="overflow-y: hidden;">
-        <div class="list-container" v-infinite-scroll="load" :infinite-scroll-disabled="isDisabled"
+    <div class="w-index-list">
+        <div class="list-container" v-infinite-scroll="load"
             style="height:calc(100vh - 80px);overflow:auto">
             <el-carousel ref="slideCarousel" :interval="5000">
                 <el-carousel-item v-for="(item, index) in imgGroup" :key="index">
@@ -63,9 +63,9 @@ export default {
         EventBus.$on('search-event',this.getSearchData);
     },
     computed: {
-        isDisabled() {
-            return this.loading || this.noMore;
-        }
+        // isDisabled() {
+        //     return this.loading || this.noMore;
+        // }
     },
     methods: {
         resetPoint() {
@@ -86,6 +86,7 @@ export default {
                 this.loading = false;
                 this.noMore = true;
             } else {
+                this.noMore = false;
                 setTimeout(() => {
                     this.count += 2;
                     this.getData();

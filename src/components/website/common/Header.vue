@@ -5,6 +5,7 @@
             <div class="w_header_right">
                 <el-input v-model="searchData" placeholder="请输入书名">
                     <i slot="prefix" class="el-input__icon el-icon-search" @click="search"></i>
+                    <i slot="suffix" class="fa fa-times" @click="clear"></i>
                 </el-input>
                 <el-dropdown @command="handleCommand">
                     <span class="el-dropdown-link">
@@ -33,8 +34,12 @@ export default {
         this.username = getToken('username');
     },
     methods: {
-        search(){
-            EventBus.$emit('search-event',this.searchData);
+        search() {
+            EventBus.$emit('search-event', this.searchData);
+        },
+        clear(){
+            this.searchData = '';
+            EventBus.$emit('search-event',this.searchData)
         },
         handleCommand(command) {
             switch (command) {
@@ -84,6 +89,16 @@ export default {
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
+
+            .el-input {
+                .el-input__suffix {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding-right: 5px;
+                    cursor: pointer;
+                }
+            }
 
             .el-dropdown-link {
                 cursor: pointer;
