@@ -215,12 +215,28 @@ mock.onGet('/api/goods').reply(params => {
   }
 })
 // 获取评价信息
+let commentArr = [...commentList];
 mock.onGet('/api/comment').reply(params => {
   try {
     const paramsData = handleParams(params.data);
-    const commentData = commentList.find(item => item.goodsId === paramsData.id);
+    const commentData = commentArr.find(item => item.goodsId === paramsData.id);
     return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS, { data: commentData });
 
+  } catch (e) {
+    return handleServerError(e);
+  }
+})
+//提交评价信息
+mock.onPost('/api/comment').reply(params => {
+  try {
+    const paramsData = handleParams(params.data);
+    commentArr.map(item => {
+      if (item.goodsId === paramsData.goodsId) {
+        item.comment.push(paramsData.comment);
+      }
+      return item;
+    });
+    return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS, { data: commentArr });
   } catch (e) {
     return handleServerError(e);
   }

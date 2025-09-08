@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     <div class="w-comment-submit">
-                        <el-button type="primary" @click="submit()">提交</el-button>
+                        <el-button type="primary" @click="submit">提交</el-button>
                     </div>
                 </div>
                 <div class="w-comment-info">
@@ -68,9 +68,11 @@
 </template>
 <script>
 import Main from './Main';
-import { GetDetail, GetComment } from '@/api/api';
+import { GetDetail, GetComment, SubmitComment } from '@/api/api';
 import { store } from '@/utils/store.js';
 import { setToken } from '@/utils/setToken';
+import { getToken } from '../../utils/setToken';
+import { formatedDate } from '@/utils/formatDate';
 export default {
     components: {
         Main
@@ -93,16 +95,37 @@ export default {
     },
     created() {
         this.item.id = Number(this.$route.params.id);
-        this.getGoodsItem({ id: this.item.id });
-        this.getCommentList({ id: this.item.id });
+        this.getGoodsItem(this.item.id);
+        this.getCommentList(this.item.id);
 
     },
     methods: {
         back() {
             this.$router.push('/index');
         },
+        submit() {
+            const data = {
+                goodsId: this.item.id,
+                comment: {
+                    userId: 0,
+                    userName: getToken('username'),
+                    level: this.rate,
+                    msg: this.comment,
+                    time: formatedDate()
+                }
+            };
+            SubmitComment(data).then(res => {
+                if (res.data.status === 200) {
+                    this.getCommentList(this.item.id);
+                } else {
+                    this.$message.error(res.data.message);
+                }
+            }).catch(e => {
+                this.$message.error(e);
+            })
+        },
         getGoodsItem(id) {
-            GetDetail(id).then(res => {
+            GetDetail({ id }).then(res => {
                 if (res.data.status === 200) {
                     this.item = { ...res.data.data };
                 } else {
@@ -118,12 +141,12 @@ export default {
             store.getShopCarItem();
         },
         changeRate(val) {
-            console.log(val)
+            this.rate = val;
         },
         getCommentList(id) {
-            GetComment(id).then(res => {
+            GetComment({ id }).then(res => {
                 if (res.data.status === 200) {
-                    this.commentList = res.data.data.comment;
+                    this.commentList = res.data.data.comment.reverse();
                 } else {
                     this.$message.error(res.data.message);
                 }

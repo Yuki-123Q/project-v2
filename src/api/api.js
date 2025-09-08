@@ -96,3 +96,11 @@ export function GetComment(data){
         data
     })
 }
+// 提交评价
+export function SubmitComment(data){
+    return service({
+        method: 'post',
+        url: '/comment',
+        data
+    })
+}

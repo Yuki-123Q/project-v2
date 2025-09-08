@@ -62,11 +62,6 @@ export default {
         this.getData();
         EventBus.$on('search-event',this.getSearchData);
     },
-    computed: {
-        // isDisabled() {
-        //     return this.loading || this.noMore;
-        // }
-    },
     methods: {
         resetPoint() {
             this.start = 0;
