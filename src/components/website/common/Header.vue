@@ -3,8 +3,8 @@
         <el-header>
             <div class="logo" @click="back">图书商城</div>
             <div class="w_header_right">
-                <el-input v-model="searchText" placeholder="请输入搜索内容">
-                    <i slot="prefix" class="el-input__icon el-icon-search"></i>
+                <el-input v-model="searchData" placeholder="请输入书名">
+                    <i slot="prefix" class="el-input__icon el-icon-search" @click="search"></i>
                 </el-input>
                 <el-dropdown @command="handleCommand">
                     <span class="el-dropdown-link">
@@ -21,10 +21,11 @@
 </template>
 <script>
 import { getToken, removeToken } from '@/utils/setToken';
+import { EventBus } from '@/main';
 export default {
     data() {
         return {
-            searchText: '',
+            searchData: '',
             username: ''
         }
     },
@@ -32,6 +33,9 @@ export default {
         this.username = getToken('username');
     },
     methods: {
+        search(){
+            EventBus.$emit('search-event',this.searchData);
+        },
         handleCommand(command) {
             switch (command) {
                 case 'shop':

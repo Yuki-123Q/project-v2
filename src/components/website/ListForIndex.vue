@@ -1,7 +1,7 @@
 <template>
-    <div class="w-index-list">
+    <div class="w-index-list" style="overflow-y: hidden;">
         <div class="list-container" v-infinite-scroll="load" :infinite-scroll-disabled="isDisabled"
-            style="overflow:auto">
+            style="height:calc(100vh - 80px);overflow:auto">
             <el-carousel ref="slideCarousel" :interval="5000">
                 <el-carousel-item v-for="(item, index) in imgGroup" :key="index">
                     <img :src="item" alt="">
@@ -35,9 +35,9 @@
 </template>
 <script>
 import { GetIndexList } from '@/api/api';
-import indexList from '@/Mock/listIndex.json';
 import { store } from '@/utils/store.js';
 import { setToken } from '@/utils/setToken';
+import { EventBus } from '@/main';
 export default {
     data() {
         return {
@@ -53,12 +53,14 @@ export default {
                 require('@/assets/img/s5.jpeg')
             ],
             start: 0,
-            end: 0
+            end: 0,
+            sumDataCount: 0,
+            searchData: ''
         }
     },
     mounted() {
         this.getData();
-        this.touchSlide();
+        EventBus.$on('search-event',this.getSearchData);
     },
     computed: {
         isDisabled() {
@@ -66,34 +68,6 @@ export default {
         }
     },
     methods: {
-        touchSlide() {
-            const box = document.querySelector('.el-carousel__container');
-            box.addEventListener('touchstart', e => {
-                console.log(e)
-                this.start = e.changedTouches[0].pageX;
-            });
-            box.addEventListener('touchmove', e => {
-                console.log(e)
-                this.end = e.changedTouches[0].pageX;
-            });
-            box.addEventListener('touched', () => {
-                console.log(1)
-                if (this.end == 0 || this.start - this.end == 0) {
-                    this.resetPoint();
-                    return;
-                }
-                if (this.start - this.end > 0) {
-                    this.resetPoint();
-                    this.$refs.slideCarousel.next();
-                    return;
-                }
-                if (this.start - this.end < 0) {
-                    this.resetPoint();
-                    this.$refs.slideCarousel.prev();
-                    return;
-                }
-            })
-        },
         resetPoint() {
             this.start = 0;
             this.end = 0;
@@ -108,7 +82,7 @@ export default {
         },
         load() {
             this.loading = true;
-            if (this.count >= indexList.length) {
+            if (this.count >= this.sumDataCount) {
                 this.loading = false;
                 this.noMore = true;
             } else {
@@ -118,10 +92,15 @@ export default {
                 }, 2000);
             }
         },
+        getSearchData(data){
+            this.searchData = data;
+            this.getData();
+        },
         getData() {
-            GetIndexList({ pageSize: this.count }).then(res => {
+            GetIndexList({ search: this.searchData,pageSize: this.count }).then(res => {
                 if (res.data.status === 200) {
                     this.dataList = res.data.data;
+                    this.sumDataCount = res.data.sumCount;
                 } else {
                     this.$message.error(res.data.message);
                 }

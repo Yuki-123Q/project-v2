@@ -173,8 +173,14 @@ mock.onGet('/api/dataview').reply(() => {
 mock.onGet('/api/index').reply(params => {
   try {
     const paramsData = handleParams(params.data);
-    let listInfo = [...indexList].slice(0, paramsData.pageSize);
-    return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS, { data: listInfo });
+    if (paramsData.search) {
+      const info = [...indexList].filter(item => item.title === paramsData.search);
+      let listInfo = info.slice(0, paramsData.pageSize);
+      return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS, { data: listInfo, sumCount: info.length });
+    } else {
+      let listInfo = [...indexList].slice(0, paramsData.pageSize);
+      return createResponse(STATUS_CODES.SUCCESS, MESSAGES.DATA_GET_SUCCESS, { data: listInfo, sumCount: indexList.length });
+    }
   }
   catch (e) {
     return handleServerError(e);

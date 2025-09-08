@@ -10,6 +10,7 @@ import router from './router'
 import service from './service'
 import echarts from 'echarts'
 
+export const EventBus = new Vue();
 Vue.use(ElementUI)
 // Vue.prototype.axios = axios //挂载到原型，可以在全局使用
 Vue.prototype.service = service;
@@ -22,7 +23,8 @@ router.beforeEach((to, from, next) => {
       next('/login');
     } else next();
   } next();
-})
+});
+
 new Vue({
   router,
   render: h => h(App),
